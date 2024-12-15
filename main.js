@@ -1,6 +1,6 @@
 const esp32IP = "http://192.168.*.**"; // Địa chỉ IP của ESP32
 
-// Lấy dữ liệu cảm biến từ backend
+// Lấy dữ liệu cảm biến từ esp32
 function fetchSensorData() {
   fetch(`${esp32IP}/sensor/latest`)
     .then((response) => response.json())
