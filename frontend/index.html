@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="./ico/apple-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="./ico/apple-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="./ico/apple-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="./ico/apple-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="./ico/apple-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="./ico/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="./ico/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="./ico/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./ico/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./ico/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./ico/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="./ico/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./ico/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./ico/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="./ico/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Hệ thống tưới cây thông minh</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hệ thống tưới cây thông minh</h1>
+
+      <!-- Thông số cảm biến -->
+      <div id="sensor-data" class="section">
+        <div class="sensor-item">
+          <p>Độ ẩm đất:</p>
+          <span id="soil-moisture">--%</span>
+        </div>
+        <div class="sensor-item">
+          <p>Nhiệt độ:</p>
+          <span id="Temperature">--°C</span>
+        </div>
+        <div class="sensor-item">
+          <p>Độ ẩm không khí:</p>
+          <span id="Humidity">--%</span>
+        </div>
+        <p id="last-updated">Cập nhật lần cuối: --:--:--</p>
+      </div>
+
+      <!-- Chế độ tự động -->
+      <div class="section">
+        <label for="auto-toggle">Tưới nước tự động:</label>
+        <input type="checkbox" id="auto-toggle" />
+        <p id="auto-status" class="info">Trạng thái: Tắt</p>
+      </div>
+
+      <!-- Điều khiển bơm nước -->
+      <div class="section">
+        <div class="controls">
+          <button class="btn-on" onclick="controlPump('on')">Bật bơm</button>
+          <button class="btn-off" onclick="controlPump('off')">Tắt bơm</button>
+        </div>
+        <p id="pump-status" class="info">Trạng thái: Đang tắt</p>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
