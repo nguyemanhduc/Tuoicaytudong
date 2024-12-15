@@ -1,41 +1,69 @@
-const esp32IP = "http://192.168.*.**"; // Địa chỉ IP của ESP32
+const esp32Url = "http://192.168.1.x"; // Địa chỉ IP của ESP32
 
-// Lấy dữ liệu cảm biến từ esp32
-function fetchSensorData() {
-  fetch(`${esp32IP}/sensor/latest`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        const { soil_moisture, temperature, humidity } = data.data;
-        document.getElementById("soil-moisture").textContent =
-          soil_moisture + "%";
-        document.getElementById("Temperature").textContent = temperature + "°C";
-        document.getElementById("Humidity").textContent = humidity + "%";
-        const now = new Date();
-        document.getElementById(
-          "last-updated"
-        ).textContent = `Cập nhật lần cuối: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-      }
-    })
-    .catch((error) => console.error("Không thể kết nối tới server:", error));
+// Hàm lấy dữ liệu cảm biến và cập nhật giao diện
+async function getSensorData() {
+  try {
+    const response = await fetch(`${esp32Url}/sensor`);
+    const data = await response.json();
+
+    document.getElementById("humidity").innerText = `${data.humidity}%`;
+    document.getElementById("temperature").innerText = `${data.temperature}°C`;
+    document.getElementById(
+      "soil-moisture"
+    ).innerText = `${data.soil_moisture}%`;
+    document.getElementById(
+      "last-updated"
+    ).innerText = `Cập nhật lần cuối: ${new Date().toLocaleTimeString()}`;
+  } catch (error) {
+    console.error("Error fetching sensor data:", error);
+  }
 }
 
-// Điều khiển bơm nước
-function controlPump(status) {
-  fetch(`${esp32IP}/control?status=${status}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        document.getElementById(
-          "pump-status"
-        ).textContent = `Trạng thái: Đang ${status === "on" ? "bật" : "tắt"}`;
-      } else {
-        alert("Có lỗi xảy ra: " + data.message);
-      }
-    })
-    .catch((error) => console.error("Không thể kết nối với server:", error));
+// Điều khiển bơm nước (bật/tắt)
+async function controlPump(status) {
+  try {
+    const response = await fetch(`${esp32Url}/control?status=${status}`);
+    const data = await response.json();
+    if (data.status === "success") {
+      document.getElementById("pump-status").innerText = `Trạng thái: ${
+        status === "on" ? "Đang bật" : "Đang tắt"
+      }`;
+    } else {
+      alert("Error: " + data.message);
+    }
+  } catch (error) {
+    alert("Failed to control the pump: " + error);
+  }
 }
+
+// Bật/tắt chế độ tự động
+async function toggleAutoMode() {
+  const autoToggle = document.getElementById("auto-toggle");
+  const mode = autoToggle.checked ? "on" : "off";
+
+  try {
+    const response = await fetch(`${esp32Url}/auto?mode=${mode}`);
+    const data = await response.json();
+
+    if (data.status === "success") {
+      document.getElementById("auto-status").innerText = `Trạng thái: ${
+        mode === "on" ? "Bật" : "Tắt"
+      }`;
+    } else {
+      alert("Error: " + data.message);
+    }
+  } catch (error) {
+    alert("Failed to toggle auto mode: " + error);
+  }
+}
+
+// Lắng nghe sự kiện thay đổi của chế độ tự động
+document
+  .getElementById("auto-toggle")
+  .addEventListener("change", toggleAutoMode);
+
+// Lấy dữ liệu cảm biến ban đầu
+getSensorData();
 
 // Cập nhật dữ liệu cảm biến mỗi 5 giây
-setInterval(fetchSensorData, 5000);
-fetchSensorData(); // Lấy dữ liệu ngay khi tải trang
+setInterval(getSensorData, 5000);
