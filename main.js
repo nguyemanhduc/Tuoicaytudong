@@ -1,4 +1,4 @@
-const esp32Url = "http://192.168.1.x"; // Địa chỉ IP của ESP32
+const esp32Url = "http://192.168.1.xx"; // Địa chỉ IP của ESP32
 
 // Hàm lấy dữ liệu cảm biến và cập nhật giao diện
 async function getSensorData() {
